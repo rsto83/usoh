@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Desafío de la H con Horacio - 4.º EBI Uruguay</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0fdf4;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', cursive;
+        }
+        .bg-pattern {
+            background-color: #e0f2fe;
+            background-image: radial-gradient(#38bdf8 1.2px, transparent 1.2px), radial-gradient(#38bdf8 1.2px, #e0f2fe 1.2px);
+            background-size: 48px 48px;
+            background-position: 0 0, 24px 24px;
+        }
+        .bounce-gentle {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .pulse-subtle {
+            animation: pulse 2.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.95; transform: scale(1.02); }
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        .btn-push {
+            transition: all 0.15s ease;
+            box-shadow: 0 6px 0 0 rgba(0,0,0,0.2);
+        }
+        .btn-push:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 0 rgba(0,0,0,0.2);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0284c7;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="bg-pattern min-h-screen text-slate-800 flex flex-col justify-between">
+
+    <header class="bg-sky-600 text-white shadow-lg sticky top-0 z-50 border-b-4 border-sky-800">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="bg-amber-400 p-2.5 rounded-2xl border-2 border-amber-600 shadow-md text-amber-950 font-black text-2xl flex items-center justify-center w-12 h-12">
+                    H
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold tracking-wide leading-tight">El Desafío de la H</h1>
+                    <p class="text-xs md:text-sm text-sky-100 font-semibold">Lengua Española • 4.º Año EBI Uruguay</p>
+                </div>
+            </div>
+
+            <nav class="flex items-center space-x-2 bg-sky-700/60 p-1.5 rounded-xl border border-sky-500/40">
+                <button id="btn-tab-rules" onclick="switchTab('rules')" class="px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all bg-amber-400 text-amber-950 shadow-sm flex items-center space-x-1.5">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Aprender Reglas</span>
+                </button>
+                <button id="btn-tab-quiz" onclick="switchTab('quiz')" class="px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all text-sky-100 hover:text-white hover:bg-sky-600/50 flex items-center space-x-1.5">
+                    <i class="fa-solid fa-gamepad"></i>
+                    <span>¡Jugar Quizz!</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+        <!-- Hero Mascot Banner -->
+        <div class="bg-gradient-to-r from-amber-500 via-amber-600 to-orange-600 rounded-3xl p-5 md:p-6 text-white mb-6 card-shadow border-4 border-amber-300 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-4 z-10">
+                <!-- SVG Mascot: Horacio el Hornero -->
+                <div class="w-24 h-24 md:w-28 md:h-28 bg-amber-100 rounded-full border-4 border-amber-300 flex items-center justify-center shrink-0 shadow-inner relative bounce-gentle">
+                    <svg viewBox="0 0 100 100" class="w-20 h-20">
+                        <!-- Head and body -->
+                        <path d="M 25 70 Q 15 50 35 30 Q 55 15 75 35 Q 85 55 65 75 Z" fill="#b45309" />
+                        <!-- Belly -->
+                        <path d="M 35 65 Q 25 50 45 40 Q 65 35 60 70 Z" fill="#fef3c7" />
+                        <!-- Eye -->
+                        <circle cx="65" cy="35" r="5" fill="#000" />
+                        <circle cx="67" cy="33" r="2" fill="#fff" />
+                        <!-- Beak -->
+                        <polygon points="75,37 92,38 74,45" fill="#d97706" stroke="#78350f" stroke-width="1.5" />
+                        <!-- Crest / Feathers -->
+                        <path d="M 50 18 Q 55 8 62 16" stroke="#78350f" stroke-width="4" stroke-linecap="round" fill="none" />
+                        <path d="M 42 22 Q 45 10 52 20" stroke="#78350f" stroke-width="3" stroke-linecap="round" fill="none" />
+                        <!-- Wing -->
+                        <path d="M 30 50 Q 50 45 45 68 Q 28 65 30 50 Z" fill="#78350f" />
+                        <!-- Tail -->
+                        <polygon points="20,60 5,68 15,75 25,68" fill="#78350f" />
+                    </svg>
+                    <!-- Small Badge -->
+                    <span class="absolute -bottom-1 -right-1 bg-sky-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-white">
+                        ¡Uruguay!
+                    </span>
+                </div>
+
+                <div>
+                    <div class="inline-block bg-amber-200/30 text-amber-100 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-1 border border-amber-200/40">
+                        Tu guía ortográfico
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold leading-tight">
+                        ¡Hola! Soy Horacio el Hornero
+                    </h2>
+                    <p class="text-amber-100 text-sm md:text-base mt-1 max-w-xl">
+                        Acompañame a descubrir los secretos de la letra <strong class="text-amber-200 underline">H</strong>. Recordá que la H no suena (es mudita), ¡pero es superimportante en nuestra escritura!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Stat or Action Button -->
+            <div class="shrink-0 z-10 w-full md:w-auto text-center">
+                <button onclick="switchTab('quiz')" class="w-full md:w-auto bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold px-6 py-3.5 rounded-2xl btn-push text-lg flex items-center justify-center space-x-2 border-2 border-emerald-300">
+                    <i class="fa-solid fa-bolt text-amber-300"></i>
+                    <span>¡Demostrá lo que sabés!</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- SECTION 1: RULES PAGE -->
+        <section id="section-rules" class="space-y-6">
+            <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border-2 border-sky-100">
+                <div class="flex items-center justify-between pb-4 mb-6 border-b-2 border-slate-100 flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-2xl font-bold text-sky-900 flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap text-sky-600"></i>
+                            Reglas de la H para 4.º Año
+                        </h2>
+                        <p class="text-slate-500 text-sm">Leé cada regla atentamente. ¡Te ayudarán a ganar todas las estrellas en el quizz!</p>
+                    </div>
+                    <span class="bg-sky-100 text-sky-800 font-bold text-xs px-3 py-1.5 rounded-xl border border-sky-200">
+                        5 Reglas Principales
+                    </span>
+                </div>
+
+                <!-- Rules Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    
+                    <!-- Rule 1 -->
+                    <div class="bg-emerald-50/70 border-2 border-emerald-200 rounded-2xl p-5 hover:border-emerald-400 transition-all">
+                        <div class="flex items-start space-x-3">
+                            <span class="bg-emerald-500 text-white font-black w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-lg shadow-sm">1</span>
+                            <div>
+                                <h3 class="font-bold text-lg text-emerald-950">Diptongos con H al inicio</h3>
+                                <p class="text-slate-700 text-sm mt-1">
+                                    Se escriben con <strong>H</strong> las palabras que empiezan con los grupos de vocales: <span class="bg-emerald-200/80 px-1.5 py-0.5 rounded font-mono font-bold text-emerald-900">hie-</span>, <span class="bg-emerald-200/80 px-1.5 py-0.5 rounded font-mono font-bold text-emerald-900">hue-</span> y <span class="bg-emerald-200/80 px-1.5 py-0.5 rounded font-mono font-bold text-emerald-900">hui-</span>.
+                                </p>
+                                <div class="mt-3 flex flex-wrap gap-1.5">
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-800 border border-emerald-300">🧊 hielo</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-800 border border-emerald-300">🥚 huevo</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-800 border border-emerald-300">🦴 hueso</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-800 border border-emerald-300">🐾 huella</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-800 border border-emerald-300">🏃 huir</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rule 2 -->
+                    <div class="bg-sky-50/70 border-2 border-sky-200 rounded-2xl p-5 hover:border-sky-400 transition-all">
+                        <div class="flex items-start space-x-3">
+                            <span class="bg-sky-500 text-white font-black w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-lg shadow-sm">2</span>
+                            <div>
+                                <h3 class="font-bold text-lg text-sky-950">Verbos muy importantes</h3>
+                                <p class="text-slate-700 text-sm mt-1">
+                                    Todas las formas de los verbos <strong>hacer</strong>, <strong>haber</strong>, <strong>hablar</strong>, <strong>hallar</strong> y <strong>habitar</strong> se escriben con H.
+                                </p>
+                                <div class="mt-3 flex flex-wrap gap-1.5">
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-sky-800 border border-sky-300">✨ hizo / hago</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-sky-800 border border-sky-300">🗣️ hablo / hablaban</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-sky-800 border border-sky-300">❓ hay / había</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-sky-800 border border-sky-300">🔎 halló</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rule 3 -->
+                    <div class="bg-amber-50/70 border-2 border-amber-200 rounded-2xl p-5 hover:border-amber-400 transition-all">
+                        <div class="flex items-start space-x-3">
+                            <span class="bg-amber-500 text-white font-black w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-lg shadow-sm">3</span>
+                            <div>
+                                <h3 class="font-bold text-lg text-amber-950">Palabras con "HUM-" + vocal</h3>
+                                <p class="text-slate-700 text-sm mt-1">
+                                    Las palabras que empiezan por la sílaba <span class="bg-amber-200/80 px-1.5 py-0.5 rounded font-mono font-bold text-amber-900">hum-</span> seguida de una vocal siempre llevan H.
+                                </p>
+                                <div class="mt-3 flex flex-wrap gap-1.5">
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-amber-800 border border-amber-300">💨 humo</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-amber-800 border border-amber-300">💧 húmedo</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-amber-800 border border-amber-300">🧑 humano</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-amber-800 border border-amber-300">😂 humor</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rule 4 -->
+                    <div class="bg-purple-50/70 border-2 border-purple-200 rounded-2xl p-5 hover:border-purple-400 transition-all">
+                        <div class="flex items-start space-x-3">
+                            <span class="bg-purple-500 text-white font-black w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-lg shadow-sm">4</span>
+                            <div>
+                                <h3 class="font-bold text-lg text-purple-950">Prefijos sabios</h3>
+                                <p class="text-slate-700 text-sm mt-1">
+                                    Palabras que empiezan con prefijos como <span class="bg-purple-200/80 px-1.5 py-0.5 rounded font-mono font-bold text-purple-900">hidro-</span> (agua), <span class="bg-purple-200/80 px-1.5 py-0.5 rounded font-mono font-bold text-purple-900">hiper-</span> (grande) o <span class="bg-purple-200/80 px-1.5 py-0.5 rounded font-mono font-bold text-purple-900">hipo-</span>.
+                                </p>
+                                <div class="mt-3 flex flex-wrap gap-1.5">
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-purple-800 border border-purple-300">🚰 hidratar</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-purple-800 border border-purple-300">🛒 hipermercado</span>
+                                    <span class="bg-white px-2.5 py-1 rounded-lg text-xs font-bold text-purple-800 border border-purple-300">🦛 hipopótamo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rule 5 -->
+                    <div class="bg-rose-50/70 border-2 border-rose-200 rounded-2xl p-5 md:col-span-2 hover:border-rose-400 transition-all">
+                        <div class="flex items-start space-x-3">
+                            <span class="bg-rose-500 text-white font-black w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-lg shadow-sm">5</span>
+                            <div>
+                                <h3 class="font-bold text-lg text-rose-950">¡Interjecciones y exclamaciones!</h3>
+                                <p class="text-slate-700 text-sm mt-1">
+                                    Las exclamaciones que usamos para saludar o expresar emociones llevan H. ¡Atención a dónde va la H!
+                                </p>
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    <span class="bg-white px-3 py-1.5 rounded-lg text-xs font-bold text-rose-800 border border-rose-300">👋 ¡Hola! (con H al principio)</span>
+                                    <span class="bg-white px-3 py-1.5 rounded-lg text-xs font-bold text-rose-800 border border-rose-300">😲 ¡Ah! (con H al final)</span>
+                                    <span class="bg-white px-3 py-1.5 rounded-lg text-xs font-bold text-rose-800 border border-rose-300">😮 ¡Oh! (con H al final)</span>
+                                    <span class="bg-white px-3 py-1.5 rounded-lg text-xs font-bold text-rose-800 border border-rose-300">🤫 ¡Bah!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Callout Box -->
+                <div class="mt-6 bg-amber-100/80 border border-amber-300 rounded-2xl p-4 flex items-center space-x-3 text-amber-900 text-sm">
+                    <i class="fa-solid fa-lightbulb text-amber-600 text-2xl shrink-0"></i>
+                    <div>
+                        <strong>💡 Dato curioso de Horacio:</strong> Las palabras de la misma familia mantienen la H. Por ejemplo, de <em>huevo</em> viene <em>huevito</em>, y de <em>hacer</em> viene <em>hacedor</em> o <em>rehacer</em>.
+                    </div>
+                </div>
+
+                <!-- Start Quiz CTA -->
+                <div class="mt-8 text-center">
+                    <button onclick="switchTab('quiz')" class="bg-amber-500 hover:bg-amber-400 text-amber-950 font-black px-8 py-4 rounded-2xl btn-push text-xl border-2 border-amber-600 inline-flex items-center space-x-3">
+                        <span>¡Entendido! Empezar el Quizz</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: QUIZ PAGE -->
+        <section id="section-quiz" class="hidden space-y-6">
+            
+            <!-- Quiz Start Card / Active Quiz Area -->
+            <div id="quiz-container" class="bg-white rounded-3xl p-6 md:p-8 card-shadow border-2 border-sky-100 relative">
+                
+                <!-- Quiz Progress Bar Header -->
+                <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+                    <div class="flex items-center space-x-2">
+                        <span id="question-number-badge" class="bg-sky-600 text-white font-extrabold text-xs px-3 py-1.5 rounded-xl">
+                            Pregunta 1 de 10
+                        </span>
+                        <span id="streak-badge" class="hidden bg-amber-100 text-amber-800 border border-amber-300 font-extrabold text-xs px-2.5 py-1.5 rounded-xl">
+                            🔥 Racha: <span id="streak-count">0</span>
+                        </span>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <div class="flex items-center text-amber-500 font-black text-lg">
+                            <i class="fa-solid fa-star mr-1"></i>
+                            <span id="score-text">0</span> pts
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 h-3.5 rounded-full overflow-hidden mb-6 border border-slate-200">
+                    <div id="quiz-progress-fill" class="bg-gradient-to-r from-sky-400 to-emerald-500 h-full w-[10%] transition-all duration-500"></div>
+                </div>
+
+                <!-- Question Card Box -->
+                <div id="question-card" class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 md:p-8 mb-6">
+                    <div class="text-xs uppercase tracking-widest text-sky-600 font-bold mb-2 flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span id="question-category">Regla del diptongo</span>
+                    </div>
+                    <h3 id="question-text" class="text-xl md:text-2xl font-bold text-slate-800 leading-snug">
+                        ¿Cómo se escribe correctamente la palabra para nombrar al hielo?
+                    </h3>
+                </div>
+
+                <!-- Answer Options Grid -->
+                <div id="options-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Dynamic Options Inserted via JS -->
+                </div>
+
+                <!-- Immediate Feedback Modal/Area -->
+                <div id="feedback-box" class="hidden mt-6 p-5 rounded-2xl border-2 transition-all">
+                    <div class="flex items-start space-x-3">
+                        <div id="feedback-icon" class="text-3xl shrink-0"></div>
+                        <div class="flex-grow">
+                            <h4 id="feedback-title" class="font-bold text-lg"></h4>
+                            <p id="feedback-desc" class="text-sm mt-0.5 text-slate-700"></p>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-right">
+                        <button id="btn-next-question" onclick="nextQuestion()" class="bg-sky-600 hover:bg-sky-500 text-white font-extrabold px-6 py-2.5 rounded-xl btn-push text-sm inline-flex items-center gap-2">
+                            <span>Siguiente pregunta</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SECTION 3: RESULTS & CERTIFICATE -->
+            <div id="results-container" class="hidden bg-white rounded-3xl p-6 md:p-10 card-shadow border-2 border-amber-200 text-center">
+                
+                <div class="inline-block bg-amber-100 text-amber-800 border border-amber-300 font-bold px-4 py-1.5 rounded-full text-xs uppercase tracking-wider mb-4">
+                    🎉 ¡Quizz Completado!
+                </div>
+
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800">
+                    ¡Gran Trabajo!
+                </h2>
+                <p class="text-slate-600 text-base mt-2">
+                    Demostraste tus conocimientos sobre el uso de la H en el idioma español.
+                </p>
+
+                <!-- Score Summary Box -->
+                <div class="my-6 max-w-md mx-auto bg-gradient-to-b from-sky-50 to-amber-50 border-2 border-sky-200 rounded-3xl p-6 shadow-sm">
+                    <div class="text-5xl font-black text-amber-500 mb-1" id="final-stars">
+                        ⭐⭐⭐
+                    </div>
+                    <div class="text-3xl font-extrabold text-sky-950 mt-2">
+                        <span id="final-score">0</span> / 100 Puntos
+                    </div>
+                    <p id="final-message" class="text-slate-600 font-semibold text-sm mt-2">
+                        ¡Increíble ortografía!
+                    </p>
+                </div>
+
+                <!-- Student Name Input for Certificate -->
+                <div class="max-w-md mx-auto mb-8 bg-slate-50 p-4 rounded-2xl border border-slate-200 text-left">
+                    <label for="student-name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        Escribí tu nombre para tu medalla:
+                    </label>
+                    <div class="flex gap-2">
+                        <input type="text" id="student-name" placeholder="Ej. Sofía Rodríguez" class="flex-grow px-4 py-2.5 border-2 border-slate-300 rounded-xl focus:outline-none focus:border-sky-500 font-bold text-slate-800">
+                        <button onclick="updateCertificateName()" class="bg-sky-600 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-sky-500">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Printable / Printable-like Certificate Preview -->
+                <div id="certificate-card" class="max-w-2xl mx-auto bg-amber-50 border-8 border-amber-400 rounded-3xl p-6 md:p-8 relative overflow-hidden shadow-inner text-center">
+                    <div class="border-2 border-dashed border-amber-600 p-6 rounded-2xl">
+                        <div class="text-amber-800 text-xs font-bold tracking-widest uppercase mb-1">
+                            ANEP • Educación Básica Integrada (EBI) - Uruguay
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-extrabold text-amber-950">
+                            CERTIFICADO DE MAESTRÍA EN LA "H"
+                        </h3>
+                        <p class="text-slate-600 text-sm mt-2">
+                            Se otorga el presente reconocimiento a:
+                        </p>
+                        <div id="cert-name-display" class="text-2xl md:text-3xl font-black text-sky-800 my-3 underline decoration-amber-400">
+                            Estudiante Destacado/a
+                        </div>
+                        <p class="text-slate-700 text-sm max-w-md mx-auto">
+                            Por haber completado con éxito las reglas de ortografía de la letra H junto a <strong>Horacio el Hornero</strong>.
+                        </p>
+
+                        <div class="mt-6 flex items-center justify-between border-t border-amber-300 pt-4 text-xs font-bold text-amber-900">
+                            <div class="flex items-center space-x-1">
+                                <i class="fa-solid fa-award text-amber-600 text-xl"></i>
+                                <span>4.º Año de Primaria</span>
+                            </div>
+                            <div class="text-right">
+                                <span id="cert-date">Septiembre, 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions Buttons -->
+                <div class="mt-8 flex flex-wrap justify-center gap-4">
+                    <button onclick="restartQuiz()" class="bg-amber-500 hover:bg-amber-400 text-amber-950 font-black px-6 py-3 rounded-2xl btn-push text-base border-2 border-amber-600 inline-flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Volver a Intentar</span>
+                    </button>
+                    <button onclick="switchTab('rules')" class="bg-sky-600 hover:bg-sky-500 text-white font-extrabold px-6 py-3 rounded-2xl btn-push text-base border-2 border-sky-700 inline-flex items-center gap-2">
+                        <i class="fa-solid fa-book"></i>
+                        <span>Repasar Reglas</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 py-6 border-t-4 border-slate-900 text-center text-xs mt-10">
+        <div class="max-w-5xl mx-auto px-4 space-y-2">
+            <p class="font-semibold text-slate-200">
+                🇺🇾 Recurso Educativo Interactivo para 4.º Año de Educación Básica Integrada (EBI) - Uruguay
+            </p>
+            <p class="text-slate-400">
+                Diseñado para el aprendizaje activo de la ortografía en laptops Ceibal y dispositivos móviles.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Web Audio API Sound Effects (Zero external file dependence)
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+        }
+
+        function playSound(type) {
+            try {
+                initAudio();
+                if (!audioCtx) return;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'correct') {
+                    // Happy arpeggio
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } else if (type === 'wrong') {
+                    // Low buzz
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now); // A3
+                    osc.frequency.setValueAtTime(180, now + 0.15);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'win') {
+                    // Victory fanfare
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.setValueAtTime(554.37, now + 0.1);
+                    osc.frequency.setValueAtTime(659.25, now + 0.2);
+                    osc.frequency.setValueAtTime(880, now + 0.35);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.7);
+                    osc.start(now);
+                    osc.stop(now + 0.7);
+                }
+            } catch (e) {
+                console.log("Audio not allowed yet");
+            }
+        }
+
+        const questionsData = [
+            {
+                id: 1,
+                category: "Regla 1: Diptongos hie / hue / hui",
+                question: "Horacio quiere comer un rico alimento de gallina. ¿Cuál es la forma correcta de escribirlo?",
+                options: [
+                    { text: "Uevo", correct: false },
+                    { text: "Huevo", correct: true },
+                    { text: "Guevo", correct: false },
+                    { text: "Webo", correct: false }
+                ],
+                explanation: "¡Correcto! Se escribe con **H** porque empieza con el grupo **hue-**."
+            },
+            {
+                id: 2,
+                category: "Regla 1: Diptongos hie / hue / hui",
+                question: "En invierno hace mucho frío y cae ____ de la montaña. ¿Qué palabra completa la frase?",
+                options: [
+                    { text: "Ielo", correct: false },
+                    { text: "Yelo", correct: false },
+                    { text: "Hielo", correct: true },
+                    { text: "Cielo", correct: false }
+                ],
+                explanation: "¡Exacto! Las palabras que empiezan por **hie-** llevan siempre **H** inicial."
+            },
+            {
+                id: 3,
+                category: "Regla 2: Verbos Hacer / Haber / Hablar",
+                question: "¿Cuál de las siguientes oraciones utiliza bien el verbo **hacer**?",
+                options: [
+                    { text: "Ayer mi hermano iso la tarea temprano.", correct: false },
+                    { text: "Ayer mi hermano hizo la tarea temprano.", correct: true },
+                    { text: "Ayer mi hermano izo la tarea temprano.", correct: false },
+                    { text: "Ayer mi hermano cizo la tarea temprano.", correct: false }
+                ],
+                explanation: "¡Excelente! **Hizo** viene del verbo **hacer**, por lo que se escribe con **H** inicial y **Z**."
+            },
+            {
+                id: 4,
+                category: "Regla 2: Verbos Hacer / Haber / Hablar",
+                question: "En la biblioteca del colegio ____ muchos libros divertidos. ¿Qué palabra con H corresponde?",
+                options: [
+                    { text: "Ay", correct: false },
+                    { text: "Hay", correct: true },
+                    { text: "Ahi", correct: false },
+                    { text: "¡Ah!", correct: false }
+                ],
+                explanation: "¡Muy bien! **Hay** (del verbo haber) se escribe con **H** inicial y termina en **Y**."
+            },
+            {
+                id: 5,
+                category: "Regla 3: Palabras con HUM- + vocal",
+                question: "La chimenea de la casa lanzaba mucho ____ blanco hacia el cielo. ¿Cuál es la opción adecuada?",
+                options: [
+                    { text: "Umo", correct: false },
+                    { text: "Humo", correct: true },
+                    { text: "Yumo", correct: false },
+                    { text: "Gumo", correct: false }
+                ],
+                explanation: "¡Genial! Las palabras que empiezan por la sílaba **hum-** seguida de vocal llevan **H**."
+            },
+            {
+                id: 6,
+                category: "Regla 3: Palabras con HUM- + vocal",
+                question: "Después de la lluvia el pasto quedó muy ____. ¿Cómo se escribe esta palabra?",
+                options: [
+                    { text: "Úmedo", correct: false },
+                    { text: "Húmedo", correct: true },
+                    { text: "Umedo", correct: false },
+                    { text: "Humedo sin tilde", correct: false }
+                ],
+                explanation: "¡Correcto! **Húmedo** empieza por **hum-** + vocal y lleva tilde en la **Ú**."
+            },
+            {
+                id: 7,
+                category: "Regla 4: Prefijos Sabios (Hidro-, Hiper-)",
+                question: "Un camión con una gran manguera para apagar incendios se conecta a un ____.",
+                options: [
+                    { text: "Hidrante", correct: true },
+                    { text: "Idrante", correct: false },
+                    { text: "Ydrante", correct: false },
+                    { text: "Itrante", correct: false }
+                ],
+                explanation: "¡Muy bien! El prefijo **hidro- / hidr-** significa agua y se escribe con **H**."
+            },
+            {
+                id: 8,
+                category: "Regla 5: Interjecciones y Saludos",
+                question: "Le envié un mensaje a mi amigo que decía: '¡____! ¿Cómo estás?'.",
+                options: [
+                    { text: "Ola", correct: false },
+                    { text: "¡Hola!", correct: true },
+                    { text: "¡Olla!", correct: false },
+                    { text: "¡Abla!", correct: false }
+                ],
+                explanation: "¡Perfecto! El saludo es **¡Hola!** con H. (Recordá que 'ola' sin H es la ola del mar)."
+            },
+            {
+                id: 9,
+                category: "Identificación de errores ortográficos",
+                question: "¿Cuál de estas cuatro palabras está **incorrectamente** escrita?",
+                options: [
+                    { text: "Huella", correct: false },
+                    { text: "Hablar", correct: false },
+                    { text: "Hueso", correct: false },
+                    { text: "Umano", correct: true }
+                ],
+                explanation: "¡Atento/a! **Umano** es un error. Debe escribirse **Humano** con H porque empieza con **hum-** + vocal."
+            },
+            {
+                id: 10,
+                category: "Familia de palabras",
+                question: "Si la palabra 'hermano' lleva H, ¿cuál de sus palabras derivadas también debe llevar H?",
+                options: [
+                    { text: "Hermanito", correct: true },
+                    { text: "Ermanito", correct: false },
+                    { text: "Ermano", correct: false },
+                    { text: "Armanito", correct: false }
+                ],
+                explanation: "¡Brillante! Toda la familia de palabras de una palabra con H conserva la **H**."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let streak = 0;
+        let answered = false;
+
+        function switchTab(tabName) {
+            const sectionRules = document.getElementById('section-rules');
+            const sectionQuiz = document.getElementById('section-quiz');
+            const btnRules = document.getElementById('btn-tab-rules');
+            const btnQuiz = document.getElementById('btn-tab-quiz');
+
+            if (tabName === 'rules') {
+                sectionRules.classList.remove('hidden');
+                sectionQuiz.classList.add('hidden');
+                
+                btnRules.className = "px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all bg-amber-400 text-amber-950 shadow-sm flex items-center space-x-1.5";
+                btnQuiz.className = "px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all text-sky-100 hover:text-white hover:bg-sky-600/50 flex items-center space-x-1.5";
+            } else {
+                sectionRules.classList.add('hidden');
+                sectionQuiz.classList.remove('hidden');
+
+                btnQuiz.className = "px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all bg-amber-400 text-amber-950 shadow-sm flex items-center space-x-1.5";
+                btnRules.className = "px-3.5 py-1.5 rounded-lg text-sm font-bold transition-all text-sky-100 hover:text-white hover:bg-sky-600/50 flex items-center space-x-1.5";
+
+                // Ensure quiz is rendered
+                if (currentQuestionIndex === 0 && score === 0 && !answered) {
+                    loadQuestion();
+                }
+            }
+        }
+
+        function loadQuestion() {
+            answered = false;
+            const q = questionsData[currentQuestionIndex];
+
+            // Hide feedback
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.classList.add('hidden');
+
+            // Set Header Badges
+            document.getElementById('question-number-badge').innerText = `Pregunta ${currentQuestionIndex + 1} de ${questionsData.length}`;
+            document.getElementById('question-category').innerText = q.category;
+            document.getElementById('question-text').innerText = q.question;
+            
+            // Progress Fill Bar
+            const percent = ((currentQuestionIndex + 1) / questionsData.length) * 100;
+            document.getElementById('quiz-progress-fill').style.width = `${percent}%`;
+
+            // Options Grid
+            const grid = document.getElementById('options-grid');
+            grid.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-sky-400 hover:bg-sky-50/50 transition-all font-bold text-slate-800 bg-white shadow-sm flex items-center justify-between group";
+                btn.onclick = () => selectOption(idx);
+                btn.id = `opt-btn-${idx}`;
+
+                btn.innerHTML = `
+                    <span class="text-base md:text-lg flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-xl bg-slate-100 text-slate-600 font-extrabold text-sm flex items-center justify-center group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                            ${String.fromCharCode(65 + idx)}
+                        </span>
+                        ${opt.text}
+                    </span>
+                    <i class="fa-regular fa-circle text-slate-300 text-xl group-hover:text-sky-500 transition-colors"></i>
+                `;
+                grid.appendChild(btn);
+            });
+        }
+
+        function selectOption(optionIndex) {
+            if (answered) return;
+            answered = true;
+
+            const q = questionsData[currentQuestionIndex];
+            const selectedOpt = q.options[optionIndex];
+            const feedbackBox = document.getElementById('feedback-box');
+            const feedbackIcon = document.getElementById('feedback-icon');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackDesc = document.getElementById('feedback-desc');
+            const streakBadge = document.getElementById('streak-badge');
+
+            // Highlight all options
+            q.options.forEach((opt, idx) => {
+                const btn = document.getElementById(`opt-btn-${idx}`);
+                btn.disabled = true;
+
+                if (opt.correct) {
+                    btn.className = "w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold shadow-sm flex items-center justify-between";
+                    btn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-600 text-xl";
+                } else if (idx === optionIndex) {
+                    btn.className = "w-full text-left p-4 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-950 font-bold shadow-sm flex items-center justify-between";
+                    btn.querySelector('i').className = "fa-solid fa-circle-xmark text-rose-500 text-xl";
+                } else {
+                    btn.className = "w-full text-left p-4 rounded-2xl border-2 border-slate-100 bg-slate-50 text-slate-400 opacity-60 font-bold flex items-center justify-between";
+                }
+            });
+
+            if (selectedOpt.correct) {
+                playSound('correct');
+                score += 10;
+                streak++;
+                
+                feedbackBox.className = "mt-6 p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50 text-emerald-900 block";
+                feedbackIcon.innerHTML = "🎉";
+                feedbackTitle.innerText = "¡Excelente Respuesta!";
+                feedbackDesc.innerHTML = q.explanation;
+            } else {
+                playSound('wrong');
+                streak = 0;
+
+                feedbackBox.className = "mt-6 p-5 rounded-2xl border-2 border-rose-300 bg-rose-50 text-rose-900 block";
+                feedbackIcon.innerHTML = "💡";
+                feedbackTitle.innerText = "¡A tener cuidado para la próxima!";
+                feedbackDesc.innerHTML = q.explanation;
+            }
+
+            // Update score
+            document.getElementById('score-text').innerText = score;
+            
+            if (streak > 1) {
+                streakBadge.classList.remove('hidden');
+                document.getElementById('streak-count').innerText = streak;
+            } else {
+                streakBadge.classList.add('hidden');
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questionsData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            playSound('win');
+            document.getElementById('quiz-container').classList.add('hidden');
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.classList.remove('hidden');
+
+            document.getElementById('final-score').innerText = score;
+
+            const starsElem = document.getElementById('final-stars');
+            const messageElem = document.getElementById('final-message');
+
+            if (score >= 90) {
+                starsElem.innerText = "⭐ ⭐ ⭐";
+                messageElem.innerText = "¡Puntuación perfecta! Sos un verdadero Maestro Ortográfico de la H.";
+            } else if (score >= 60) {
+                starsElem.innerText = "⭐ ⭐";
+                messageElem.innerText = "¡Muy bien hecho! Conoces muy bien la mayoría de las reglas.";
+            } else {
+                starsElem.innerText = "⭐";
+                messageElem.innerText = "¡Buen intento! Te recomendamos repasar las reglas con Horacio y probar de nuevo.";
+            }
+
+            // Set todays date
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('cert-date').innerText = now.toLocaleDateString('es-UY', options);
+        }
+
+        function updateCertificateName() {
+            const inputVal = document.getElementById('student-name').value.trim();
+            if (inputVal.length > 0) {
+                document.getElementById('cert-name-display').innerText = inputVal;
+            } else {
+                document.getElementById('cert-name-display').innerText = "Estudiante Destacado/a";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            streak = 0;
+            answered = false;
+
+            document.getElementById('score-text').innerText = "0";
+            document.getElementById('results-container').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+
+            loadQuestion();
+        }
+
+        // Initialize App on load
+        window.onload = function() {
+            // Pre-load initial question state
+            loadQuestion();
+        };
+    </script>
+</body>
+</html>
